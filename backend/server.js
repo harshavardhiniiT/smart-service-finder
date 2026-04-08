@@ -4,6 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const shopRoutes = require('./routes/shops');
+const bookingRoutes = require('./routes/bookings');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/shops', shopRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

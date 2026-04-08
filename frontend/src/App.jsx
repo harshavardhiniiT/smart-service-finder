@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import Home from './pages/Home';
 import ServiceList from './pages/ServiceList';
 import ShopDetails from './pages/ShopDetails';
+import MyBookings from './pages/MyBookings';
+import NearbyShopDetails from './pages/NearbyShopDetails';
 import './App.css';
 
 export const LocationContext = createContext(null);
@@ -15,11 +17,16 @@ function Navbar({ location }) {
           <span className="logo-icon">🔍</span>
           Smart Service Finder
         </Link>
-        <div className="navbar-location">
-          <span className="loc-dot"></span>
-          {location
-            ? `📍 ${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`
-            : '📍 Detecting location...'}
+        <div className="navbar-right">
+          <Link to="/my-bookings" className="navbar-link" id="nav-my-bookings">
+            📋 My Bookings
+          </Link>
+          <div className="navbar-location">
+            <span className="loc-dot"></span>
+            {location
+              ? `📍 ${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}`
+              : '📍 Detecting location...'}
+          </div>
         </div>
       </div>
     </nav>
@@ -70,6 +77,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/service/:type" element={<ServiceList />} />
             <Route path="/shop/:id" element={<ShopDetails />} />
+            <Route path="/my-bookings" element={<MyBookings />} />
+            <Route path="/nearby/:id" element={<NearbyShopDetails />} />
           </Routes>
         </main>
       </Router>

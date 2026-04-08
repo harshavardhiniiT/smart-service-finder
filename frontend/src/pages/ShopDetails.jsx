@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import BookingForm from '../components/BookingForm';
+import GoogleMap from '../components/GoogleMap';
 import './ShopDetails.css';
 
 function StarRating({ rating }) {
@@ -18,6 +20,7 @@ function ShopDetails() {
   const [shop, setShop] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     fetchShop();
@@ -119,10 +122,22 @@ function ShopDetails() {
 
         {/* Call to Action */}
         <div className="cta-section">
-          <a href={`tel:${shop.phone}`} className="cta-button" id="call-shop-btn">
+          <button
+            className="cta-button cta-book-btn"
+            id="book-service-btn"
+            onClick={() => setShowBooking(true)}
+          >
+            📅 Book Service
+          </button>
+          <a href={`tel:${shop.phone}`} className="cta-button cta-call-btn" id="call-shop-btn">
             📞 Call {shop.name}
           </a>
         </div>
+
+        {/* Google Map */}
+        {shop.location && (
+          <GoogleMap lat={shop.location.lat} lng={shop.location.lng} name={shop.name} />
+        )}
 
         {/* Reviews */}
         <div className="reviews-section">
@@ -156,6 +171,14 @@ function ShopDetails() {
             </div>
           )}
         </div>
+
+        {/* Booking Modal */}
+        {showBooking && (
+          <BookingForm
+            shop={shop}
+            onClose={() => setShowBooking(false)}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,29 @@
+/* ===== Nearby Shop Details Page ===== */
+.nearby-details-page {
+  padding: 32px 0;
+}
+
+/* Description Section */
+.nearby-description-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.nearby-description-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.nearby-description-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.nearby-distance-value {
+  color: var(--success) !important;
+}

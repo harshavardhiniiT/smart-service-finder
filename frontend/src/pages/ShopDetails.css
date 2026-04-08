@@ -115,6 +115,9 @@
 
 /* ===== CTA ===== */
 .cta-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin-bottom: 40px;
 }
 
@@ -122,17 +125,29 @@
   display: block;
   text-align: center;
   padding: 16px;
-  background: linear-gradient(135deg, #10b981, #059669);
   color: white;
   font-size: 1.05rem;
   font-weight: 700;
   border-radius: var(--radius-lg);
   transition: all var(--transition-normal);
   text-decoration: none;
+  cursor: pointer;
+}
+
+.cta-book-btn {
+  background: var(--accent-gradient);
+}
+
+.cta-call-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+}
+
+.cta-call-btn:hover {
   box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
 }
 
@@ -235,6 +250,10 @@
   }
 
   .info-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-section {
     grid-template-columns: 1fr;
   }
 }

@@ -1,5 +1,9 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useContext } from 'react';
+import { LocationContext } from '../App';
 import CategoryCard from '../components/CategoryCard';
+import NearbyShopCard from '../components/NearbyShopCard';
+import nearbyShops from '../data/nearbyShops';
+import { calculateDistance } from '../utils/distance';
 import './Home.css';
 
 const categories = [
@@ -13,8 +17,11 @@ const categories = [
   'Cleaning Services'
 ];
 
+const NEARBY_RADIUS_KM = 10;
+
 function Home() {
   const [search, setSearch] = useState('');
+  const { location } = useContext(LocationContext);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return categories;
@@ -22,6 +29,17 @@ function Home() {
       c.toLowerCase().includes(search.toLowerCase())
     );
   }, [search]);
+
+  const nearbyWithDistance = useMemo(() => {
+    if (!location) return [];
+    return nearbyShops
+      .map((shop) => ({
+        ...shop,
+        distance: calculateDistance(location.lat, location.lng, shop.lat, shop.lng)
+      }))
+      .filter((shop) => shop.distance <= NEARBY_RADIUS_KM)
+      .sort((a, b) => a.distance - b.distance);
+  }, [location]);
 
   return (
     <div className="home-page">
@@ -86,6 +104,25 @@ function Home() {
           )}
         </div>
       </section>
+
+      {/* Nearby Services Section */}
+      {nearbyWithDistance.length > 0 && (
+        <section className="nearby-section">
+          <div className="container">
+            <div className="section-header">
+              <h2 className="section-title">📍 Nearby Services</h2>
+              <p className="section-subtitle">
+                {nearbyWithDistance.length} service{nearbyWithDistance.length !== 1 ? 's' : ''} within {NEARBY_RADIUS_KM} km
+              </p>
+            </div>
+            <div className="nearby-grid">
+              {nearbyWithDistance.map((shop) => (
+                <NearbyShopCard key={shop.id} shop={shop} distance={shop.distance} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
